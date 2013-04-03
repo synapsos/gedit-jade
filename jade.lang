@@ -45,7 +45,7 @@
     <define-regex id="name">[a-zA-Z0-9_-]+</define-regex>
     
     <context id="doctype" style-ref="doctype">
-		  <match>^(!!!)\s*([a-zA-Z0-9-_]+)</match>
+		  <match>^(!!!|doctype)\s*([a-zA-Z0-9-_]*)</match>
 		</context>
         
 		<context id="attribute-name" class="no-spell-check">
@@ -103,7 +103,12 @@
     <context id="attribute-class" style-ref="attribute-name">
       <match>\.[a-zA-Z0-9_-]+</match>
     </context>
-		
+
+    <context id="block-comment" style-ref="comment" class="comment" class-disabled="no-spell-check">
+      <start>^\s*//\s*$</start>
+			<end>^(?=\S+)</end>
+    </context>
+
     <context id="line-comment" style-ref="comment" end-at-line-end="true" class="comment" class-disabled="no-spell-check">
       <start>//</start>
       <include>
@@ -136,6 +141,7 @@
         <context ref="attribute-id"/>
         <context ref="attribute-class"/>
         <context ref="tags"/>
+				<context ref="block-comment"/>
         <context ref="line-comment"/>
         <context ref="jade-executable"/>
         <context ref="interpolated" />
